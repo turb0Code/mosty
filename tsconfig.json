@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"outDir": "./dist",
+		"sourceMap": true,
+		"noImplicitAny": true,
+		"module": "commonjs",
+		"target": "es6",
+		"allowJs": true,
+        "strict": false,
+		"declaration": true,
+    	"declarationDir": "game.ts"
+	},
+	"exclude": [
+		"node_modules"
+	],
+	"files": [
+		"src/main.ts",
+		"src/game.ts",
+		"src/app.ts"
+	]
+}

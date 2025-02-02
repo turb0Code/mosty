@@ -1,15 +1,18 @@
 import Button from './components/button';
 import Graphic from './components/image';
 import TextBox from './components/text';
+import ClickDetector from './script/buttonClick';
 
 import drawNavBar from "./modules/nav-bar";
+
+// initialize click detector instance
+let clickDetector = new ClickDetector();
 
 export default class Game {
 	private canvas: HTMLCanvasElement;
 	private ctx: CanvasRenderingContext2D;
 	private height: number = window.innerHeight;
 	private width: number = window.innerWidth;
-	private buttons: Button[] = [];
 	private background: HTMLImageElement = null;
 
 	constructor() {
@@ -25,6 +28,8 @@ export default class Game {
 		}
 	}
 
+
+	// main rendering function (each run of function is a frame)
 	public render(): void {
 
 		// clear canvas
@@ -36,17 +41,9 @@ export default class Game {
 		// debug info
         console.log('[*] rendering');
 
-		// listerers
-		this.canvas.addEventListener('click', (event: MouseEvent) => {
-			let x = event.pageX - (this.canvas.clientLeft + this.canvas.offsetLeft);
-			let y = event.pageY - (this.canvas.clientTop + this.canvas.offsetTop);
-
-			this.buttons.forEach(b => {
-			  if (b.inBounds(x, y) && !!b.onClick) b.onClick();
-			});
-
-			this.buttons = [];
-		});
+		// click detection
+		clickDetector.setCanvas(this.canvas);  // assign detector to canvas
+		clickDetector.detectClickEvent();  // check if some button was clicked
 
 		// scene elements
 		new Graphic(this.ctx, 100, 350, "./assets/images/car.png");
@@ -54,7 +51,7 @@ export default class Game {
 		new TextBox(this.ctx, 50, 50, "Hello, World!");
 
 		let btn = new Button(this.ctx, 50, 100, "click!", 120, 50, 12);
-		this.buttons.push(btn);
+		clickDetector.add(btn);
 		btn.onClick = () => console.log('[+] clicked button!');
 
 		drawNavBar(this.ctx, this.canvas);

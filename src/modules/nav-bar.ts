@@ -1,43 +1,77 @@
 import Button from "../components/button";
+import Row from "../components/row";
 import TextBox from "../components/text";
+import ClickDetector from "../script/buttonClick";
 
+// initialize click detector instance
+let clickDetector = new ClickDetector();
 
-let buttons: Button[] = [];
+// vars
 let money = 8500;
-
-let clicked = true;
-
 
 const drawNavBar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
 
-    canvas.addEventListener('click', (event: MouseEvent) => {
-        let x = event.pageX - (canvas.clientLeft + canvas.offsetLeft);
-        let y = event.pageY - (canvas.clientTop + canvas.offsetTop);
+    // click detection
+    clickDetector.setCanvas(canvas);  // assign detector to canvas
+    clickDetector.detectClickEvent();  // check if some button was clicked
 
-        buttons.forEach(b => {
-            if (b.inBounds(x, y) && !!b.onClick && clicked) { b.onClick(); clicked = false; }
-        });
+    // you're too poor message
+    let tooPoorText = new TextBox(ctx, 600, 500, "You don't have enough money", true);
 
-        buttons = [];
+    // setup buttons
+    let cheap = new Button(ctx, 700, 0, "300$", 120, 50, 12, true);
+    clickDetector.add(cheap);
+	cheap.onClick = () => {
+        if (money - 300 > 0)
+        {
+            console.log('[+] bought cheap');
+            money = money - 300;
+        } else
+        {
+            tooPoorText.draw(); // it's displayed but only for one frame
+        }
+    };
 
-        clicked = true;
-    });
+    let mid = new Button(ctx, 900, 0, "500$", 120, 50, 12, true);
+    clickDetector.add(mid);
+	mid.onClick = () => {
+        if (money - 500 > 0)
+        {
+            console.log('[+] bought cheap');
+            money = money - 500;
+        } else
+        {
+            tooPoorText.draw();
+        }
+    };
 
-    new TextBox(ctx, 15, 895, `${money}$`);
+    let expensive = new Button(ctx, 1100, 0, "700$", 120, 50, 12, true);
+    clickDetector.add(expensive);
+	expensive.onClick = () => {
+        if (money - 700 > 0)
+        {
+            console.log('[+] bought cheap');
+            money = money - 700;
+        } else
+        {
+            tooPoorText.draw();
+        }
+    };
 
-    let cheap = new Button(ctx, 700, 852, "300$", 120, 50, 12);
-    buttons.push(cheap);
-	cheap.onClick = () => { console.log('[+] bought cheap'); money = money - 300; };
+    let startBtn = new Button(ctx, 1790, 0, "Start", 120, 50, 12, true)
+    clickDetector.add(startBtn);
+	startBtn.onClick = () => { console.log('[+] started simulation'); }
 
-    let mid = new Button(ctx, 900, 852, "500$", 120, 50, 12);
-    buttons.push(mid);
-	mid.onClick = () => { console.log('[+] bought mid'); money = money - 500; }
 
-    let expensive = new Button(ctx, 1100, 852, "700$", 120, 50, 12);
-    buttons.push(expensive);
-	expensive.onClick = () => { console.log('[+] bought expensive'); money = money - 700; }
+    // draw bottom bar in row
+    new Row(ctx, 852, 200, 1920, [
+        new TextBox(ctx, 15, 0, `${money}$`, true),
+        cheap,
+        mid,
+        expensive,
+        startBtn
+    ]);
 
-    new Button(ctx, 1790, 852, "Start", 120, 50, 12);
 }
 
 export default drawNavBar;

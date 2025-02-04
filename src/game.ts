@@ -14,6 +14,7 @@ export default class Game {
 	private height: number = window.innerHeight;
 	private width: number = window.innerWidth;
 	private background: HTMLImageElement = null;
+	private frames: number = 0;
 
 	constructor() {
 		this.canvas = <HTMLCanvasElement>document.querySelector('canvas');
@@ -28,9 +29,11 @@ export default class Game {
 		}
 	}
 
-
 	// main rendering function (each run of function is a frame)
 	public render(): void {
+
+		// calculate frames
+		this.frames++;
 
 		// clear canvas
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

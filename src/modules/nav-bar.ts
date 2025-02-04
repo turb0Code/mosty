@@ -8,6 +8,7 @@ let clickDetector = new ClickDetector();
 
 // vars
 let money = 8500;
+let tooPoorTextDisplay = 0;
 
 const drawNavBar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
 
@@ -17,6 +18,11 @@ const drawNavBar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) =>
 
     // you're too poor message
     let tooPoorText = new TextBox(ctx, 600, 500, "You don't have enough money", true);
+    if (tooPoorTextDisplay > 0)
+    {
+        tooPoorText.draw();
+        tooPoorTextDisplay--;
+    }
 
     // setup buttons
     let cheap = new Button(ctx, 700, 0, "300$", 120, 50, 12, true);
@@ -27,9 +33,7 @@ const drawNavBar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) =>
             console.log('[+] bought cheap');
             money = money - 300;
         } else
-        {
-            tooPoorText.draw(); // it's displayed but only for one frame
-        }
+        { tooPoorTextDisplay = 500; }
     };
 
     let mid = new Button(ctx, 900, 0, "500$", 120, 50, 12, true);
@@ -40,9 +44,7 @@ const drawNavBar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) =>
             console.log('[+] bought cheap');
             money = money - 500;
         } else
-        {
-            tooPoorText.draw();
-        }
+        { tooPoorTextDisplay = 500; }
     };
 
     let expensive = new Button(ctx, 1100, 0, "700$", 120, 50, 12, true);
@@ -53,9 +55,7 @@ const drawNavBar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) =>
             console.log('[+] bought cheap');
             money = money - 700;
         } else
-        {
-            tooPoorText.draw();
-        }
+        { tooPoorTextDisplay = 500; }
     };
 
     let startBtn = new Button(ctx, 1790, 0, "Start", 120, 50, 12, true)

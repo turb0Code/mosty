@@ -1,4 +1,4 @@
-export default class Rectangle {
+export default class Row {
     private ctx;
     private width;
     private height;

@@ -3,8 +3,8 @@ export default class Game {
     private ctx;
     private height;
     private width;
-    private buttons;
     private background;
+    private frames;
     constructor();
     render(): void;
 }

@@ -8,6 +8,10 @@ import drawNavBar from "./modules/nav-bar";
 // initialize click detector instance
 let clickDetector = new ClickDetector();
 
+// start timer
+let start = new Date().getTime();
+let seconds = 0;
+
 export default class Game {
 	private canvas: HTMLCanvasElement;
 	private ctx: CanvasRenderingContext2D;
@@ -34,6 +38,10 @@ export default class Game {
 
 		// calculate frames
 		this.frames++;
+		if (Number((new Date().getTime() - start) / 1000) > seconds) {
+			seconds = seconds + 1
+			console.log(`fps: ${(this.frames/seconds).toFixed(2)}`);
+		}
 
 		// clear canvas
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

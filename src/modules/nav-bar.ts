@@ -27,36 +27,15 @@ const drawNavBar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) =>
     // setup buttons
     let cheap = new Button(ctx, 700, 0, "300$", 120, 50, 12, true);
     clickDetector.add(cheap);
-	cheap.onClick = () => {
-        if (money - 300 > 0)
-        {
-            console.log('[+] bought cheap');
-            money = money - 300;
-        } else
-        { tooPoorTextDisplay = 500; }
-    };
+	cheap.onClick = () => { buy(300); };
 
     let mid = new Button(ctx, 900, 0, "500$", 120, 50, 12, true);
     clickDetector.add(mid);
-	mid.onClick = () => {
-        if (money - 500 > 0)
-        {
-            console.log('[+] bought cheap');
-            money = money - 500;
-        } else
-        { tooPoorTextDisplay = 500; }
-    };
+	mid.onClick = () => { buy(500); };
 
     let expensive = new Button(ctx, 1100, 0, "700$", 120, 50, 12, true);
     clickDetector.add(expensive);
-	expensive.onClick = () => {
-        if (money - 700 > 0)
-        {
-            console.log('[+] bought cheap');
-            money = money - 700;
-        } else
-        { tooPoorTextDisplay = 500; }
-    };
+	expensive.onClick = () => { buy(700); };
 
     let startBtn = new Button(ctx, 1790, 0, "Start", 120, 50, 12, true)
     clickDetector.add(startBtn);
@@ -75,3 +54,12 @@ const drawNavBar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) =>
 }
 
 export default drawNavBar;
+
+const buy = (price: number) => {
+    if (money - price > 0)
+    {
+        console.log('[+] bought');
+        money = money - price;
+    } else
+    { tooPoorTextDisplay = 500; }
+}
